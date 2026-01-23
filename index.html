@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>NextFerretDUR - Repo 1 </title>
+<title>NextFerretDUR - Repo 1</title>
 <style>
   body { font-family: monospace; background: #f5f5f5; color: #333; padding: 20px; }
   .header { display: flex; align-items: center; margin-bottom: 20px; }
@@ -14,6 +14,7 @@
   a:hover { text-decoration: underline; }
   .folder::before { content: "📁 "; }
   .file::before { content: "📄 "; }
+  .deb::before { content: "📦 "; }
   #path { margin-bottom: 10px; font-weight: bold; }
 </style>
 </head>
@@ -27,7 +28,7 @@
 
 <script>
   const user = "nextferretdur"; 
-  const repo = "repo1"; /*/ here i would add smth like repo1,2,3,4.. /*/
+  const repo = "repo1"; 
   const ignoredFiles = ["index.html", "logo.png"];
 
   let currentPath = "";
@@ -64,9 +65,19 @@
           }
 
           const li = document.createElement("li");
-          li.className = item.type;
+          let cssClass = "file"; 
+          
+          if (item.type === "dir") {
+            cssClass = "folder";
+          } else if (item.name.endsWith(".deb")) {
+            cssClass = "deb";
+          }
+          
+          li.className = cssClass;
+
           const link = document.createElement("a");
           link.textContent = item.name + (item.type === "dir" ? "/" : "");
+          
           if(item.type === "dir") {
             link.href = "#";
             link.onclick = () => {
